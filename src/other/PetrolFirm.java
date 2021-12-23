@@ -1,30 +1,25 @@
 package other;
 
+import enums.Action;
 import interfaces.Customer;
 import interfaces.Message;
 import interfaces.Movable;
 import place.Place;
+import util.StoryObject;
 
 import java.util.Formatter;
 import java.util.Objects;
 
-public class PetrolFirm implements Message {
-    private final String name;
-    private final String description;
-    private final Place storePoint;
+public class PetrolFirm extends StoryObject {
+    private Place storePoint;
 
     public PetrolFirm(String name, String description, Place storePoint ){
-        this.name = name;
-        this.description = description;
+        super(name, description);
         this.storePoint = storePoint;
     }
 
-    public String getName(){
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
+    public void setStorePoint(Place p){
+        this.storePoint = p;
     }
 
     public Place getStorePoint() {
@@ -37,6 +32,7 @@ public class PetrolFirm implements Message {
                 return true;
             }
         }
+        StoryTeller.tell(this, Action.IS_BROKEN);
         return false;
     }
 
@@ -55,11 +51,11 @@ public class PetrolFirm implements Message {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PetrolFirm that = (PetrolFirm) o;
-        return name.equals(that.name) && description.equals(that.description) && storePoint.equals(that.storePoint);
+        return getName().equals(that.getName()) && getDescription().equals(that.getDescription()) && storePoint.equals(that.storePoint);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, storePoint);
+        return Objects.hash(getName(), getDescription(), storePoint);
     }
 }

@@ -3,42 +3,39 @@ package person;
 import interfaces.Message;
 import interfaces.Movable;
 import place.Place;
+import util.StoryObject;
 
 import java.util.Formatter;
 import java.util.Objects;
 
-public abstract class Person implements Message, Movable {
+public abstract class Person extends StoryObject implements Movable {
 
-    private final String name;
-    private String description;
-    private final String job;
+    private String job;
 
     Person(String name, String description, String job){
-        this.name = name;
-        this.description = description;
+        super(name, description);
         this.job = job;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getJob() {
         return job;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+
+    public void setJob(String s){
+        this.job = job;
     }
+
 
 
     @Override
     public void visit(Place p){
         p.addMovable(this);
+    }
+
+    @Override
+    public void leave(Place p){
+        p.removeMovable(this);
     }
 
     @Override
@@ -57,11 +54,11 @@ public abstract class Person implements Message, Movable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return name.equals(person.name) && description.equals(person.description) && job.equals(person.job);
+        return getName().equals(person.getName()) && getDescription().equals(person.getDescription()) && job.equals(person.job);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, job);
+        return Objects.hash(getName(), getDescription(), job);
     }
 }

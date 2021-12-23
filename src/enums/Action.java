@@ -11,8 +11,13 @@ public enum Action implements Message {
     IS_BROKEN("обанкротилась"),
     BLAME_FOR_MONEY_STEALING("обвинил полицию в похещении денег"),
     WANT_TO_ARREST("хочет посадить"),
-    TO("в")
-    ;
+    TO("в"),
+    SEARCH_ADDRESS("ищет адресс"),
+    IN("в"),
+    DRIVE_FROM("уехал из"),
+    HIDE("спрятали"),
+    ARREST("аррестована"),
+    CANT_ARREST("не может быть арестована");
 
 
     private final String description;
