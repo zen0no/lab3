@@ -1,25 +1,26 @@
 package place;
 
+import exceptions.MovableNotFoundException;
 import interfaces.Message;
 import interfaces.Movable;
+import other.StoryTeller;
+import util.StoryObject;
 
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Objects;
 
-public abstract class Place implements Message {
-    private final String name;
-    private final String type;
+public abstract class Place extends StoryObject {
+    private String type;
     protected ArrayList<Movable> movables = new ArrayList<Movable>();
 
     public Place(String name, String type){
-        this.name = name;
+        super(name, "");
         this.type = type;
     }
 
-    public String getName(){
-        return name;
-
+    public void setType(String type){
+        this.type =type;
     }
 
 
@@ -30,6 +31,18 @@ public abstract class Place implements Message {
     public void addMovable(Movable m){
         this.movables.add(m);
     }
+    public void removeMovable(Movable m){
+        try {
+            if (this.movables.contains(m)) {
+                this.movables.remove(m);
+            } else {
+                throw new MovableNotFoundException("Movable not found at movables", m);
+            }
+        }
+        catch (MovableNotFoundException e){
+            StoryTeller.tell(e);
+        }
+    }
 
     public ArrayList<Movable> getMovables(){
         return movables;
@@ -37,7 +50,7 @@ public abstract class Place implements Message {
 
     @Override
     public String toString(){
-        return (new Formatter()).format("<%s> %s: %s", getClass().toString(), name, type).toString();
+        return (new Formatter()).format("<%s> %s: %s", getClass().toString(), getName(), type).toString();
     }
 
     @Override

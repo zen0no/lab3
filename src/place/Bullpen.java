@@ -12,9 +12,7 @@ public class Bullpen extends Place{
 
     @Override
     public void addMovable(Movable m) {
-        if (m instanceof Person) {
-            super.addMovable(m);
-        } else throw new IllegalArgumentException("Use Person");
+        super.addMovable(m);
     }
 
 }

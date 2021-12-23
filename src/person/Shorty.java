@@ -1,31 +1,30 @@
-package other;
+package person;
 
 import car.Car;
+import enums.Action;
 import interfaces.Message;
+import other.StoryTeller;
 
 import java.util.Formatter;
 import java.util.Objects;
 
-public class Shorty implements Message {
-    private final String name;
-    private final String description;
+public class Shorty extends Person implements Message {
 
     public Shorty(String name, String description){
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
+        super(name, description, "коротышка");
     }
 
     public void makeFuss(Car c){
         c.destroy();
+        StoryTeller.tell(this, Action.DESTROY_TIRES, c);
     }
+
+    public void blame(Person p){
+        p.setDescription("оскарблённый");
+        StoryTeller.tell(this, Action.BLAME_FOR_MONEY_STEALING);
+
+    }
+
 
     @Override
     public String toMessage(){
