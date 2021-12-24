@@ -24,23 +24,19 @@ public abstract class Place extends StoryObject {
     }
 
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
     public void addMovable(Movable m){
         this.movables.add(m);
     }
-    public void removeMovable(Movable m){
-        try {
-            if (this.movables.contains(m)) {
-                this.movables.remove(m);
-            } else {
-                throw new MovableNotFoundException("Movable not found at movables", m);
-            }
+    public void removeMovable(Movable m) throws MovableNotFoundException{
+        if (this.movables.contains(m)) {
+            this.movables.remove(m);
         }
-        catch (MovableNotFoundException e){
-            StoryTeller.tell(e);
+        else {
+            throw new MovableNotFoundException("Movable not found at movables", m);
         }
     }
 

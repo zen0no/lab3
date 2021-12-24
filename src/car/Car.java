@@ -69,23 +69,18 @@ public class Car implements Destroyable, Movable, Message, Customer {
     }
 
 
-    public void hideMoney(int i, String currency){
+    public void hideMoney(int i, String currency) throws IncorrectCurrencyException {
         if (stolenMoney == null){
             stolenMoney = new HiddenMoney(i, "доллар", this);
             StoryTeller.tell(Action.IN, this, Action.HIDE, this.getStolenMoney());
             StoryTeller.tell(Action.NAME_WANTED_CAR_BRAND , this.getBrand());
             return;
         }
-        try {
-            if (!currency.equals(stolenMoney.currency)) {
+        if (!currency.equals(stolenMoney.currency)) {
                 throw new IncorrectCurrencyException("Incorrect currency of money", currency);
-            }
-            stolenMoney.addMoney(i);
-            StoryTeller.tell(Action.IN, this, Action.HIDE, this.getStolenMoney());
         }
-        catch (IncorrectCurrencyException e){
-            StoryTeller.tell(e);
-        }
+        stolenMoney.addMoney(i);
+        StoryTeller.tell(Action.IN, this, Action.HIDE, this.getStolenMoney());
     }
 
     public boolean isWanted(){
@@ -100,8 +95,12 @@ public class Car implements Destroyable, Movable, Message, Customer {
 
     public void leave(Place p){
         StoryTeller.tell((Message) this, Action.DRIVE_FROM, p);
-        p.removeMovable(this);
-
+        try {
+            p.removeMovable(this);
+        }
+        catch (MovableNotFoundException e){
+            StoryTeller.tell(e);
+        }
     }
 
     public String getName() {

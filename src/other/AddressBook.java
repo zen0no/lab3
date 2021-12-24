@@ -77,19 +77,14 @@ public class AddressBook extends StoryObject{
     }
 
 
-    public Address getAddress(Person p){
-        try {
-            for (Address a : addresses) {
-                if (a.tenant.equals(p)) {
-                    return a;
-                }
+    public Address getAddress(Person p) throws PersonNoAddressException{
+
+        for (Address a : addresses) {
+            if (a.tenant.equals(p)) {
+                return a;
             }
-            throw new PersonNoAddressException("That person does not have address", p);
         }
-        catch (PersonNoAddressException e){
-            StoryTeller.tell(e);
-            return null;
-        }
+        throw new PersonNoAddressException("That person does not have address", p);
     }
 
     public void addAddress(Address a){

@@ -1,6 +1,7 @@
 import car.Car;
 import enums.Action;
 import enums.Brand;
+import exceptions.IncorrectCurrencyException;
 import exceptions.PersonNoAddressException;
 import interfaces.Message;
 import interfaces.Movable;
@@ -50,7 +51,12 @@ public class Main {
         };
 
         wantedCar.visit(street);
-        wantedCar.hideMoney(1000, "доллары");
+        try {
+            wantedCar.hideMoney(1000, "доллары");
+        }
+        catch (IncorrectCurrencyException e){
+            StoryTeller.tell(e);
+        }
         wantedCar.leave(street);
 
 

@@ -1,6 +1,7 @@
 package person;
 
 import enums.Action;
+import exceptions.PersonNoAddressException;
 import other.AddressBook;
 import other.StoryTeller;
 import place.Place;
@@ -21,6 +22,12 @@ public class PoliceCommissar extends Person {
 
     public AddressBook.Address searchAddress(AddressBook book, Person p){
         StoryTeller.tell(this, Action.SEARCH_ADDRESS, p, Action.IN, book);
-        return book.getAddress(p);
+        try {
+            return book.getAddress(p);
+        }
+        catch (PersonNoAddressException e){
+            StoryTeller.tell(e);
+            return null;
+        }
     }
 }
