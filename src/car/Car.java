@@ -36,13 +36,12 @@ public class Car implements Destroyable, Movable, Message, Customer {
     }
 
     public class HiddenMoney implements Message {
-        private final Car car;
+        private final Car car = Car.this;
         private int amount;
         private String currency;
 
-        private HiddenMoney(int amount, String currency, Car car) {
+        private HiddenMoney(int amount, String currency) {
             this.amount = amount;
-            this.car = car;
             this.currency = currency;
         }
 
@@ -71,7 +70,7 @@ public class Car implements Destroyable, Movable, Message, Customer {
 
     public void hideMoney(int i, String currency) throws IncorrectCurrencyException {
         if (stolenMoney == null){
-            stolenMoney = new HiddenMoney(i, "доллар", this);
+            stolenMoney = new HiddenMoney(i, "доллар");
             StoryTeller.tell(Action.IN, this, Action.HIDE, this.getStolenMoney());
             StoryTeller.tell(Action.NAME_WANTED_CAR_BRAND , this.getBrand());
             return;
