@@ -1,7 +1,8 @@
 package person;
 
-import interfaces.Message;
+import exceptions.MovableNotFoundException;
 import interfaces.Movable;
+import other.StoryTeller;
 import place.Place;
 import util.StoryObject;
 
@@ -35,7 +36,12 @@ public abstract class Person extends StoryObject implements Movable {
 
     @Override
     public void leave(Place p){
-        p.removeMovable(this);
+        try {
+            p.removeMovable(this);
+        }
+        catch (MovableNotFoundException e){
+            StoryTeller.tell(e);
+        }
     }
 
     @Override
