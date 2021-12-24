@@ -2,6 +2,7 @@ package other;
 
 import exceptions.PersonNoAddressException;
 import interfaces.Message;
+import interfaces.StringEditor;
 import person.Person;
 import util.StoryObject;
 
@@ -98,7 +99,14 @@ public class AddressBook extends StoryObject{
 
     @Override
     public String toMessage() {
-        return (new Formatter()).format("%s %s %s", getDescription(), getName(), getCity()).toString();
+        class DollarEditor{
+            public String dollarize(String string){
+                StringEditor stringEditor = (String s) -> "$" + s + "$";
+                return stringEditor.edit(string);
+            }
+        }
+
+        return (new Formatter()).format("%s %s %s", getDescription(), getName(), (new DollarEditor()).dollarize(getCity())).toString();
     }
 
     @Override
